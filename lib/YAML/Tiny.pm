@@ -86,7 +86,7 @@ method read_string($string) {
             # if ( defined $1 and $1 !~ /^(?:\#.+|\%YAML[: ][\d\.]+)\z/ ) {
             # match[0] is RPA. Get first element.
             if +$match[0] {
-                @result.push(self._read_scalar( ~$match[0][0], [ undef ], @lines ));
+                @result.push(self._read_scalar( ~$match[0][0], [ pir::new('Undef') ], @lines ));
                 next;
             }
         }
@@ -96,7 +96,7 @@ method read_string($string) {
         if !@lines || (@lines[0] ~~ /^['---'|'...']/) {
             debug("Naked", @lines);
             # A naked document
-            @result.push(undef);
+            @result.push(pir::new('Undef'));
             while @lines && !(@lines[0] ~~ /^'---'/) {
                 @lines.shift;
             }
@@ -142,8 +142,8 @@ method _read_scalar($string, $indent, @lines) {
    # Trim trailing whitespace
    $string := subst($string, /\s*$/, '');
 
-   # Explitic null/undef
-   return undef if $string eq '~';
+   # Explitic null/pir::new('Undef')
+   return pir::new('Undef') if $string eq '~';
 
    # Single quote
    my $match := $string ~~ /^\'(.*?)\'[\s+\#.*]?$/;
@@ -249,12 +249,12 @@ method _read_array(@array, @indent, @lines) {
         elsif $m := @lines[0] ~~ /^\s* \- (\s*) (.+?) \s* $/ {
             # Array entry with a value
             @lines.shift;
-            @array.push(self._read_scalar( ~$m[1], [ @indent, undef ], @lines ));
+            @array.push(self._read_scalar( ~$m[1], [ @indent, pir::new('Undef') ], @lines ));
         }
         elsif $m := @lines[0] ~~ /^\s*\-\s*$/ {
             @lines.shift;
             unless @lines {
-                @array.push(undef);
+                @array.push(pir::new('Undef'));
                 return 1;
             }
 
@@ -262,7 +262,7 @@ method _read_array(@array, @indent, @lines) {
                 my $indent2 := length($m[0]);
                 if @indent[-1] == $indent2 {
                     # Null array entry
-                    @array.push(undef);
+                    @array.push(pir::new('Undef'));
                 }
                 else {
                     # Naked indenter
@@ -338,14 +338,14 @@ method _read_hash(%hash, @indent, @lines) {
         if length(@lines[0]) {
             # Yes
             debug("Reading scalar", @lines[0]);
-            %hash{$key} := self._read_scalar( @lines.shift, [ @indent, undef ], @lines );
+            %hash{$key} := self._read_scalar( @lines.shift, [ @indent, pir::new('Undef') ], @lines );
             debug("Done", %hash);
         }
         else {
             # An indent
             @lines.shift;
             unless @lines {
-                %hash{$key} := undef;
+                %hash{$key} := pir::new('Undef');
                 return 1;
             }
 
@@ -358,7 +358,7 @@ method _read_hash(%hash, @indent, @lines) {
                 my $indent2 := length($m[0]);
                 if ( @indent[-1] >= $indent2 ) {
                     # Null hash entry
-                    %hash{$key} := undef;
+                    %hash{$key} := pir::new('Undef');
                 }
                 else {
                     %hash{$key} := {};

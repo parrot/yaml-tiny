@@ -171,14 +171,13 @@ generated_by: ExtUtils::MakeMaker version 6.17
 		version_from => 'Baby.pm',
 		installdirs => 'site',
 		requires => hash(
-			warnings => undef,
+			warnings => pir::new('Undef'),
 		),
 		distribution_type => 'module',
 		generated_by => 'ExtUtils::MakeMaker version 6.17',
 	) ],
 	'Acme-Time-Baby',
 	noyamlperl => 1,
-    todo => 1,
 );
 
 

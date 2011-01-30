@@ -15,6 +15,15 @@ our sub yaml_ok($yaml, $expected, $description, *%adverbs) {
     }
 }
 
+# NQP semantic doesn't handle fatarrow well. We can have quoted keys.
+# So, use special helper for tests.
+our sub myhash(*@pos, *%named) {
+    for @pos -> $k, $v {
+        %named{$k} := $v;
+    }
+    %named;
+}
+
 Q:PIR {
     # We want Test::More features for testing. Not NQP's builtin.
     .include "test_more.pir"

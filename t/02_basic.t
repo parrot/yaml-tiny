@@ -34,31 +34,31 @@ yaml_ok(
 # Empty documents
 yaml_ok(
 	"---\n",
-	[ undef ],
+	[ pir::new('Undef') ],
 	'only_header',
 	noyamlperl => 1,
 );
 yaml_ok(
 	"---\n---\n",
-	[ undef, undef ],
+	[ pir::new('Undef'), pir::new('Undef') ],
 	'two_header',
 	noyamlperl => 1,
 );
 yaml_ok(
 	"--- ~\n",
-	[ undef ],
+	[ pir::new('Undef') ],
 	'one_undef',
 	noyamlperl => 1,
 );
 yaml_ok(
 	"---  ~\n",
-	[ undef ],
+	[ pir::new('Undef') ],
 	'one_undef2',
 	noyamlperl => 1,
 );
 yaml_ok(
 	"--- ~\n---\n",
-	[ undef, undef ],
+	[ pir::new('Undef'), pir::new('Undef') ],
 	'two_undef',
 	noyamlperl => 1,
 );
@@ -94,7 +94,7 @@ yaml_ok(
 );
 yaml_ok(
 	"---\n- ~\n- bar\n",
-	[ [ undef, 'bar' ] ],
+	[ [ pir::new('Undef'), 'bar' ] ],
 	'one_listundef',
 	noyamlperl => 1,
 );
@@ -108,10 +108,9 @@ yaml_ok(
 
 yaml_ok(
 	"---\nfoo: bar\nthis: ~\n",
-	[ hash(this => undef, foo => 'bar') ],
+	[ hash(this => pir::new('Undef'), foo => 'bar') ],
  	'one_hash2',
 	noyamlperl => 1,
-    todo => 1,
 );
 
 # Simple array inside a hash with an undef
@@ -122,7 +121,7 @@ foo:
   - ~
   - baz
 },
-	[ hash(foo => [ 'bar', undef, 'baz' ]) ],
+	[ hash(foo => [ 'bar', pir::new('Undef'), 'baz' ]) ],
 	'array_in_hash',
 	noyamlperl => 1,
 );
@@ -134,10 +133,9 @@ foo: ~
 bar:
   foo: bar
 },
-	[ hash(foo => undef, bar => hash(foo => 'bar' )) ],
+	[ hash(foo => pir::new('Undef'), bar => hash(foo => 'bar' )) ],
 	'hash_in_hash',
 	noyamlperl => 1,
-    todo => 1,
 );
 
 # Mixed hash and scalars inside an array
@@ -153,14 +151,13 @@ yaml_ok(
   this: that
 },
 	[ [
-		hash( foo => undef, this => 'that' ),
+		hash( foo => pir::new('Undef'), this => 'that' ),
 		'foo',
-		undef,
+		pir::new('Undef'),
 		hash( foo => 'bar', this => 'that' ),
 	] ],
 	'hash_in_array',
 	noyamlperl => 1,
-    todo => 1,
 );
 
 # Simple single quote
@@ -226,7 +223,7 @@ yaml_ok(
   this: that
 - baz
 },
-	[ [ undef, hash( foo => 'bar', this => 'that' ), 'baz' ] ],
+	[ [ pir::new('Undef'), hash( foo => 'bar', this => 'that' ), 'baz' ] ],
 	'inline_nested_hash',
 	noyamlperl => 1,
 );
