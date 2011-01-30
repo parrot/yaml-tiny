@@ -83,9 +83,8 @@ method read_string($string) {
             debug("Header", $match);
             # Handle scalar documents
             @lines.shift;
-            # if ( defined $1 and $1 !~ /^(?:\#.+|\%YAML[: ][\d\.]+)\z/ ) {
             # match[0] is RPA. Get first element.
-            if +$match[0] {
+            if +$match[0] && !((~$match[0][0]) ~~ /^[ '#' .+ | '%YAML' [':'|' '] [\d\.]+ ]$/){
                 @result.push(self._read_scalar( ~$match[0][0], [ pir::new('Undef') ], @lines ));
                 next;
             }
