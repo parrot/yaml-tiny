@@ -8,3 +8,6 @@ all: lib/YAML/Tiny.pbc
 
 test: lib/YAML/Tiny.pbc t/lib/Test.pbc
 	prove -e parrot-nqp -r -v t/*.t
+
+clean:
+	rm lib/YAML/Tiny.pbc t/lib/Test.pbc
