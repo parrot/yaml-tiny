@@ -242,7 +242,7 @@ method _read_array(@array, @indent, @lines) {
             # Inline nested hash
             debug("Inline nested hash", $m);
             my $indent2 := length($m[0]);
-            subst(@lines[0], /'-'/, ' ');
+            @lines[0] := subst(@lines[0], /'-'/, ' ');
             @array.push(hash());
             self._read_hash( @array[-1], [ @indent, $indent2 ], @lines );
         }

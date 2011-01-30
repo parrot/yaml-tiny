@@ -218,19 +218,19 @@ yaml_ok(
 );
 
 # Inline nested hash
-###yaml_ok(
-###	q{
-###---
-###- ~
-###- foo: bar
-###  this: that
-###- baz
-###},
-###	[ [ undef, hash( foo => 'bar', this => 'that' ), 'baz' ] ],
-###	'inline_nested_hash',
-###	noyamlperl => 1,
-###    todo => 1,
-###);
+yaml_ok(
+	q{
+---
+- ~
+- foo: bar
+  this: that
+- baz
+},
+	[ [ undef, hash( foo => 'bar', this => 'that' ), 'baz' ] ],
+	'inline_nested_hash',
+	noyamlperl => 1,
+    todo => 1,
+);
 
 # Empty comments
 yaml_ok(
