@@ -229,7 +229,6 @@ yaml_ok(
 	[ [ undef, hash( foo => 'bar', this => 'that' ), 'baz' ] ],
 	'inline_nested_hash',
 	noyamlperl => 1,
-    todo => 1,
 );
 
 # Empty comments
