@@ -10,4 +10,10 @@ test: lib/YAML/Tiny.pbc t/lib/Test.pbc
 	prove -e parrot-nqp -r -v t/*.t
 
 clean:
-	rm lib/YAML/Tiny.pbc t/lib/Test.pbc
+	rm -f lib/YAML/Tiny.pbc t/lib/Test.pbc
+
+LIBDIR = `parrot_config libdir`
+
+install:
+	mkdir -p $(LIBDIR)/YAML
+	cp lib/YAML/Tiny.pbc $(LIBDIR)/YAML
